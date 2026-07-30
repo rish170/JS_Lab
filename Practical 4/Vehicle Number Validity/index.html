@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Vehicle Number Validation</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <div class="login-container">
+        <h2>Vehicle Validation</h2>
+        <form id="vehicleForm" novalidate>
+            <div class="form-group">
+                <label for="ownerName">Owner Name</label>
+                <input type="text" id="ownerName" placeholder="Enter owner name" required>
+                <span class="error-msg" id="ownerNameError"></span>
+            </div>
+            
+            <div class="form-group">
+                <label for="vehicleNumber">Vehicle Number</label>
+                <input type="text" id="vehicleNumber" placeholder="e.g. MH12AB1234" required>
+                <span class="error-msg" id="vehicleNumberError"></span>
+                <ul class="validation-rules" id="vehicleRules">
+                    <li id="rule-not-empty" class="invalid">Registration number should not be empty</li>
+                    <li id="rule-length" class="invalid">Length should be exactly 10 characters</li>
+                    <li id="rule-state-code" class="invalid">First two characters must be uppercase alphabets (State Code)</li>
+                    <li id="rule-district-code" class="invalid">Next two characters must be digits (District Code)</li>
+                    <li id="rule-series" class="invalid">Next two characters must be uppercase alphabets (Series)</li>
+                    <li id="rule-number" class="invalid">Last four characters must be digits (Vehicle Number)</li>
+                </ul>
+            </div>
+            
+            <button type="submit" id="submitBtn">Validate</button>
+            <div class="success-msg hidden" id="successMsg">Valid details. Form submitted successfully!</div>
+        </form>
+    </div>
+    
+    <script src="script.js"></script>
+</body>
+</html>

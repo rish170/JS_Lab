@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Login Validation</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <div class="login-container">
+        <h2>Login Form</h2>
+        <form id="loginForm" novalidate>
+            <div class="form-group">
+                <label for="email">Email Address</label>
+                <input type="email" id="email" placeholder="Enter your email" required>
+                <span class="error-msg" id="emailError"></span>
+            </div>
+            
+            <div class="form-group">
+                <label for="password">Password</label>
+                <input type="password" id="password" placeholder="Enter your password" required>
+                <span class="error-msg" id="passwordError"></span>
+                <ul class="password-rules" id="passwordRules">
+                    <li id="rule-lower" class="invalid">Lowercase letter</li>
+                    <li id="rule-upper" class="invalid">Uppercase letter</li>
+                    <li id="rule-number" class="invalid">Number</li>
+                    <li id="rule-special" class="invalid">Special character</li>
+                    <li id="rule-space" class="valid">No spaces</li>
+                    <li id="rule-length" class="invalid">At least 8 characters</li>
+                </ul>
+            </div>
+            
+            <button type="submit" id="submitBtn">Login</button>
+            <div class="success-msg hidden" id="successMsg">Valid details. Form submitted successfully!</div>
+        </form>
+    </div>
+    
+    <script src="script.js"></script>
+</body>
+</html>

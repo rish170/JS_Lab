@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Student Grading System</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <div class="container">
+        <h1>Student Grading System</h1>
+        <form id="gradingForm" novalidate>
+            <div class="form-group">
+                <label for="studentName">Student Name</label>
+                <input type="text" id="studentName" placeholder="Enter student name" required>
+            </div>
+            <div class="form-group">
+                <label for="semester">Semester</label>
+                <select id="semester" required>
+                    <option value="" disabled selected hidden>Select Semester</option>
+                    <option value="1">Semester 1</option>
+                    <option value="2">Semester 2</option>
+                    <option value="3">Semester 3</option>
+                    <option value="4">Semester 4</option>
+                    <option value="5">Semester 5</option>
+                    <option value="6">Semester 6</option>
+                    <option value="7">Semester 7</option>
+                    <option value="8">Semester 8</option>
+                </select>
+            </div>
+            
+            <div class="form-group">
+                <label for="section">Section</label>
+                <select id="section" required>
+                    <option value="" disabled selected hidden>Select Section</option>
+                    <option value="A">Section A</option>
+                    <option value="B">Section B</option>
+                    <option value="C">Section C</option>
+                </select>
+            </div>
+
+            <div class="form-group">
+                <label for="numSubjects">Number of Subjects</label>
+                <select id="numSubjects" required>
+                    <option value="" disabled selected hidden>Select Number of Subjects</option>
+                    <option value="3">3 Subjects</option>
+                    <option value="4">4 Subjects</option>
+                    <option value="5">5 Subjects</option>
+                </select>
+            </div>
+
+            <div id="subjectsContainer" class="subjects-container">
+                <!-- Subject input fields will be dynamically generated here by JS -->
+            </div>
+
+            <button type="submit" class="submit-btn" id="calculateBtn">Calculate Grade</button>
+        </form>
+
+        <div id="result" class="result-container hidden">
+            <h2>Result</h2>
+            <p id="percentageText"></p>
+            <p id="gradeText"></p>
+        </div>
+    </div>
+    
+    <script src="script.js"></script>
+</body>
+</html>

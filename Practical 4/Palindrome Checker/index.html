@@ -1,0 +1,26 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Palindrome Checker</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <div class="login-container">
+        <h2>Palindrome Checker</h2>
+        <form id="palindromeForm" novalidate>
+            <div class="form-group">
+                <label for="wordInput">Enter a word or string</label>
+                <input type="text" id="wordInput" placeholder="e.g. racecar" required>
+                <span class="error-msg" id="wordError"></span>
+            </div>
+            
+            <button type="submit" id="submitBtn">Check Palindrome</button>
+            <div class="success-msg hidden" id="resultMsg"></div>
+        </form>
+    </div>
+    
+    <script src="script.js"></script>
+</body>
+</html>

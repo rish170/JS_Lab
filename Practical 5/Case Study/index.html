@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <title>Shopping Cart Calculator</title>
+
+    <link rel="stylesheet" href="style.css">
+
+</head>
+
+<body>
+
+    <div class="container">
+        <h2>Shopping Cart Calculator</h2>
+
+        <input type="text" id="name" placeholder="Product Name">
+        <input type="number" id="price" placeholder="Price">
+        <input type="number" id="qty" placeholder="Quantity">
+
+        <button onclick="addProduct()">Add Product</button>
+
+        <table id="cartTable">
+            <tr>
+                <th>ID</th>
+                <th>Product</th>
+                <th>Price</th>
+                <th>Quantity</th>
+                <th>Total</th>
+            </tr>
+        </table>
+
+        <div class="result" id="result"></div>
+
+        <h3>Item Summary</h3>
+        <ul id="summary"></ul>
+
+        <h3>Expensive Products (Price &gt; ₹1000)</h3>
+        <ul id="expensive"></ul>
+
+        <h3>Minimum Priced Item</h3>
+        <ul id="minimum"></ul>
+
+        <h3>Maximum Priced Item</h3>
+        <ul id="maximum"></ul>
+    </div>
+
+    <script src="script.js"></script>
+
+
+</body>
+</html>

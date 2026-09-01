@@ -1,0 +1,181 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>String Methods and Regular Expressions</title>
+
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 40px;
+        }
+
+        h1 {
+            text-align: center;
+        }
+
+        .box {
+            border: 1px solid #ccc;
+            padding: 20px;
+            margin-bottom: 20px;
+            border-radius: 8px;
+        }
+
+        input,
+        textarea,
+        button {
+            padding: 10px;
+            margin: 5px 0;
+            width: 90%;
+            box-sizing: border-box;
+        }
+
+        button {
+            width: 150px;
+            cursor: pointer;
+        }
+
+        #output {
+            margin-top: 20px;
+            padding: 15px;
+            background-color: #f5f5f5;
+        }
+    </style>
+</head>
+
+<body>
+
+    <h1>String Methods and Regular Expressions</h1>
+
+    <div class="box">
+
+        <label><b>Enter a Paragraph:</b></label>
+
+        <textarea id="paragraph" rows="5">JavaScript is a powerful programming language. It is widely used for web development, allowing developers to create interactive and dynamic web pages. Regular expressions are a key feature in JavaScript, enabling pattern matching and text manipulation. With string methods and regular expressions, developers can efficiently process and analyze text data, making JavaScript an essential tool for modern web applications.</textarea>
+
+        <br>
+
+        <label><b>Enter Email:</b></label>
+
+        <input type="text" id="email" placeholder="Enter an email">
+
+        <br>
+
+        <button onclick="processString()">Process</button>
+
+        <div id="output"></div>
+
+    </div>
+
+    <script>
+
+        function processString() {
+
+            // Get input values
+            let paragraph = document.getElementById("paragraph").value.trim();
+            let email = document.getElementById("email").value.trim();
+
+            // -----------------------------------------------------
+            // 1. split() - Split paragraph into words
+            // -----------------------------------------------------
+
+            let words = paragraph.split(/\s+/);
+
+            // -----------------------------------------------------
+            // 2. match() - Find all vowels
+            // -----------------------------------------------------
+
+            let vowels = paragraph.match(/[aeiou]/gi);
+            let vowelCount = vowels ? vowels.length : 0;
+
+            // -----------------------------------------------------
+            // 3. replace() - Replace a word
+            // -----------------------------------------------------
+
+            let replacedParagraph = paragraph.replace(
+                /JavaScript/gi,
+                "JavaScript Programming"
+            );
+
+            // -----------------------------------------------------
+            // 4. indexOf() - Find position of a word
+            // -----------------------------------------------------
+
+            let searchWord = "powerful";
+            let position = paragraph.indexOf(searchWord);
+
+            // -----------------------------------------------------
+            // 5. Regular Expression - Email Validation
+            // -----------------------------------------------------
+
+            let emailPattern =
+                /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/;
+
+            let emailResult;
+
+            if (emailPattern.test(email)) {
+                emailResult = "Valid Email";
+            } else {
+                emailResult = "Invalid Email";
+            }
+
+            // -----------------------------------------------------
+            // 6. Regex - Extract Emails from Paragraph
+            // -----------------------------------------------------
+
+            let emailText =
+                "For queries, contact student@example.com or admin@college.edu";
+
+            let extractedEmails = emailText.match(
+                /[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}/g
+            );
+
+            // -----------------------------------------------------
+            // 7. Reverse the paragraph
+            // -----------------------------------------------------
+
+            let reversedParagraph = paragraph
+                .split("")
+                .reverse()
+                .join("");
+
+            // -----------------------------------------------------
+            // 8. Display Results
+            // -----------------------------------------------------
+
+            document.getElementById("output").innerHTML = `
+                <p><b>Words in Paragraph:</b> ${words.length}</p>
+
+                <p><b>Vowel Count:</b> ${vowelCount}</p>
+
+                <p><b>Replaced Paragraph:</b> ${replacedParagraph}</p>
+
+                <p>
+                    <b>Position of "${searchWord}":</b>
+                    ${position !== -1 ? position : "Not Found"}
+                </p>
+
+                <p>
+                    <b>Email Validation Result:</b>
+                    ${emailResult}
+                </p>
+
+                <p>
+                    <b>Extracted Emails:</b>
+                    ${extractedEmails
+                        ? extractedEmails.join(", ")
+                        : "No Emails Found"}
+                </p>
+
+                <p><b>Reversed Paragraph:</b> ${reversedParagraph}</p>
+            `;
+        }
+
+    </script>
+
+</body>
+
+</html>

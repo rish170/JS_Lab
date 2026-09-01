@@ -1,0 +1,181 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>String Operations - Case Study</title>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600&display=swap');
+
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+            font-family: 'Poppins', sans-serif;
+        }
+
+        body {
+            background: linear-gradient(135deg, #f5f7fa 0%, #c3cfe2 100%);
+            min-height: 100vh;
+            padding: 2rem;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+
+        h1 {
+            color: #2c3e50;
+            margin-bottom: 2rem;
+            text-align: center;
+        }
+
+        .container {
+            display: flex;
+            flex-direction: column;
+            gap: 2rem;
+            width: 100%;
+            max-width: 800px;
+        }
+
+        .card {
+            background-color: white;
+            padding: 2rem;
+            border-radius: 12px;
+            box-shadow: 0 10px 25px rgba(0,0,0,0.1);
+        }
+
+        .card h2 {
+            color: #34495e;
+            margin-bottom: 1rem;
+            font-size: 1.4rem;
+        }
+
+        .form-group {
+            margin-bottom: 1.5rem;
+        }
+
+        label {
+            display: block;
+            margin-bottom: 0.5rem;
+            color: #555;
+            font-weight: 500;
+        }
+
+        input[type="text"],
+        textarea {
+            width: 100%;
+            padding: 0.8rem;
+            border: 1px solid #ddd;
+            border-radius: 8px;
+            font-size: 1rem;
+            outline: none;
+            transition: border-color 0.3s;
+            resize: vertical;
+        }
+
+        input[type="text"]:focus,
+        textarea:focus {
+            border-color: #3498db;
+        }
+
+        button {
+            padding: 0.8rem 1.5rem;
+            background-color: #3498db;
+            color: white;
+            border: none;
+            border-radius: 8px;
+            font-size: 1rem;
+            font-weight: 600;
+            cursor: pointer;
+            transition: background-color 0.3s;
+        }
+
+        button:hover {
+            background-color: #2980b9;
+        }
+
+        .result {
+            margin-top: 1.5rem;
+            padding: 1rem;
+            background-color: #f8f9fa;
+            border-left: 4px solid #2ecc71;
+            border-radius: 4px;
+            font-weight: 500;
+            color: #2c3e50;
+            display: none;
+            word-break: break-all;
+        }
+    </style>
+</head>
+<body>
+
+    <h1>Practical 6: String Operations Case Study</h1>
+
+    <div class="container">
+        <!-- Task 1: Reverse a String -->
+        <div class="card">
+            <h2>1. Reverse a String</h2>
+            <div class="form-group">
+                <label for="inputString">Enter a string to reverse:</label>
+                <input type="text" id="inputString" placeholder="e.g. JavaScript is fun">
+            </div>
+            <button onclick="reverseString()">Reverse String</button>
+            <div id="reverseResult" class="result"></div>
+        </div>
+
+        <!-- Task 2: Count Vowels -->
+        <div class="card">
+            <h2>2. Count Vowels in a Paragraph</h2>
+            <div class="form-group">
+                <label for="inputParagraph">Enter a paragraph:</label>
+                <textarea id="inputParagraph" rows="4" placeholder="e.g. Type some text here to count how many vowels it contains."></textarea>
+            </div>
+            <button onclick="countVowels()">Count Vowels</button>
+            <div id="vowelResult" class="result"></div>
+        </div>
+    </div>
+
+    <script>
+        // Function to reverse a string
+        function reverseString() {
+            const input = document.getElementById('inputString').value;
+            const resultDiv = document.getElementById('reverseResult');
+            
+            if (input.trim() === '') {
+                resultDiv.style.display = 'block';
+                resultDiv.style.borderLeftColor = '#e74c3c';
+                resultDiv.innerHTML = 'Please enter a valid string.';
+                return;
+            }
+
+            // Using string operation & array operations
+            const reversed = input.split('').reverse().join('');
+            
+            resultDiv.style.display = 'block';
+            resultDiv.style.borderLeftColor = '#2ecc71';
+            resultDiv.innerHTML = `<strong>Original:</strong> ${input} <br> <strong>Reversed:</strong> ${reversed}`;
+        }
+
+        // Function to count vowels in a paragraph
+        function countVowels() {
+            const paragraph = document.getElementById('inputParagraph').value;
+            const resultDiv = document.getElementById('vowelResult');
+            
+            if (paragraph.trim() === '') {
+                resultDiv.style.display = 'block';
+                resultDiv.style.borderLeftColor = '#e74c3c';
+                resultDiv.innerHTML = 'Please enter a valid paragraph.';
+                return;
+            }
+
+            // Using string match method with regex to find vowels (a, e, i, o, u) case-insensitive
+            const matches = paragraph.match(/[aeiou]/gi);
+            const vowelCount = matches ? matches.length : 0;
+            
+            resultDiv.style.display = 'block';
+            resultDiv.style.borderLeftColor = '#2ecc71';
+            resultDiv.innerHTML = `The paragraph contains <strong>${vowelCount}</strong> vowel(s).`;
+        }
+    </script>
+</body>
+</html>

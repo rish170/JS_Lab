@@ -1,0 +1,126 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>To-Do List App</title>
+
+<style>
+    body {
+        font-family: Arial, sans-serif;
+        background: #f4f4f4;
+        display: flex;
+        justify-content: center;
+        margin-top: 50px;
+    }
+
+    .container {
+        background: white;
+        padding: 20px;
+        border-radius: 8px;
+        width: 350px;
+        box-shadow: 0 0 10px rgba(0,0,0,0.2);
+    }
+
+    h2 {
+        text-align: center;
+    }
+
+    input {
+        width: 68%;
+        padding: 8px;
+    }
+
+    button {
+        padding: 8px 10px;
+        cursor: pointer;
+    }
+
+    ul {
+        list-style: none;
+        padding: 0;
+        margin-top: 20px;
+    }
+
+    li {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        background: #eee;
+        margin: 8px 0;
+        padding: 8px;
+        border-radius: 5px;
+    }
+
+    .actions button {
+        margin-left: 5px;
+    }
+</style>
+</head>
+
+<body>
+
+<div class="container">
+    <h2>To-Do List</h2>
+
+    <input type="text" id="taskInput" placeholder="Enter a task">
+    <button id="addBtn">Add</button>
+
+    <ul id="taskList"></ul>
+</div>
+
+<script>
+const taskInput = document.getElementById("taskInput");
+const addBtn = document.getElementById("addBtn");
+const taskList = document.getElementById("taskList");
+
+addBtn.addEventListener("click", function () {
+    let task = taskInput.value.trim();
+
+    if (task == "") {
+        alert("Please enter a task.");
+        return;
+    }
+
+    let li = document.createElement("li");
+    let span = document.createElement("span");
+    span.textContent = task;
+
+    let actions = document.createElement("div");
+    actions.className = "actions";
+
+    let editBtn = document.createElement("button");
+    editBtn.textContent = "Edit";
+
+    let deleteBtn = document.createElement("button");
+    deleteBtn.textContent = "Delete";
+
+    editBtn.onclick = function () {
+        let updatedTask = prompt("Edit Task:", span.textContent);
+        if (updatedTask !== null && updatedTask.trim() !== "") {
+            span.textContent = updatedTask.trim();
+        }
+    };
+
+    deleteBtn.onclick = function () {
+        li.remove();
+    };
+
+    actions.appendChild(editBtn);
+    actions.appendChild(deleteBtn);
+
+    li.appendChild(span);
+    li.appendChild(actions);
+
+    taskList.appendChild(li);
+
+    // DOM Traversal Examples
+    console.log(taskList.children);
+    console.log(li.parentElement);
+
+    taskInput.value = "";
+});
+</script>
+
+</body>
+</html>

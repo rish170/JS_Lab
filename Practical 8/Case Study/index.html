@@ -1,0 +1,335 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Gym Admission Registration</title>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700&display=swap');
+
+        :root {
+            --primary-color: #ff4757;
+            --primary-hover: #ff6b81;
+            --bg-color: #2f3542;
+            --card-bg: #ffffff;
+            --text-main: #2f3542;
+            --text-muted: #747d8c;
+            --border-color: #dfe4ea;
+            --error-color: #ff4757;
+            --success-color: #2ed573;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Outfit', sans-serif;
+        }
+
+        body {
+            background: linear-gradient(135deg, var(--bg-color) 0%, #1e272e 100%);
+            color: var(--text-main);
+            min-height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            padding: 2rem;
+        }
+
+        .container {
+            background: var(--card-bg);
+            padding: 2.5rem;
+            border-radius: 20px;
+            box-shadow: 0 15px 35px rgba(0,0,0,0.2);
+            width: 100%;
+            max-width: 500px;
+        }
+
+        h2 {
+            text-align: center;
+            color: var(--text-main);
+            margin-bottom: 0.5rem;
+            font-size: 2rem;
+            font-weight: 700;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+
+        .subtitle {
+            text-align: center;
+            color: var(--text-muted);
+            margin-bottom: 2rem;
+            font-size: 0.95rem;
+        }
+
+        .form-group {
+            margin-bottom: 1.5rem;
+        }
+
+        label {
+            display: block;
+            margin-bottom: 0.5rem;
+            font-weight: 600;
+            color: var(--text-main);
+        }
+
+        input[type="text"],
+        select,
+        textarea {
+            width: 100%;
+            padding: 0.8rem 1rem;
+            border: 2px solid var(--border-color);
+            border-radius: 10px;
+            font-size: 1rem;
+            outline: none;
+            transition: all 0.3s ease;
+            background-color: #f1f2f6;
+        }
+
+        input[type="text"]:focus,
+        select:focus,
+        textarea:focus {
+            border-color: var(--primary-color);
+            background-color: #ffffff;
+            box-shadow: 0 0 0 4px rgba(255, 71, 87, 0.1);
+        }
+
+        .radio-group, .checkbox-group {
+            display: flex;
+            flex-direction: column;
+            gap: 0.5rem;
+            padding: 0.5rem 0;
+        }
+
+        .radio-item, .checkbox-item {
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            cursor: pointer;
+        }
+
+        .radio-item input, .checkbox-item input {
+            cursor: pointer;
+            width: 1.1rem;
+            height: 1.1rem;
+            accent-color: var(--primary-color);
+        }
+
+        .error-message {
+            color: var(--error-color);
+            font-size: 0.85rem;
+            margin-top: 0.4rem;
+            display: block;
+            min-height: 1.2rem;
+        }
+
+        .submit-btn {
+            width: 100%;
+            padding: 1rem;
+            background-color: var(--primary-color);
+            color: white;
+            border: none;
+            border-radius: 10px;
+            font-size: 1.1rem;
+            font-weight: 700;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            margin-top: 1rem;
+        }
+
+        .submit-btn:hover {
+            background-color: var(--primary-hover);
+            transform: translateY(-2px);
+            box-shadow: 0 5px 15px rgba(255, 107, 129, 0.4);
+        }
+
+        .success-box {
+            display: none;
+            background-color: rgba(46, 213, 115, 0.1);
+            border: 2px solid var(--success-color);
+            color: #2ed573;
+            padding: 1rem;
+            border-radius: 10px;
+            text-align: center;
+            margin-top: 1.5rem;
+            font-weight: 600;
+        }
+
+        /* Aesthetics */
+        textarea {
+            resize: vertical;
+            min-height: 100px;
+        }
+    </style>
+</head>
+<body>
+
+    <div class="container">
+        <h2>Gym Admission</h2>
+        <p class="subtitle">Complete your registration to join our fitness community</p>
+
+        <form id="gymForm" novalidate>
+            <!-- Name -->
+            <div class="form-group">
+                <label for="name">Name</label>
+                <input type="text" id="name" placeholder="Enter your full name">
+                <span class="error-message" id="nameError"></span>
+            </div>
+
+            <!-- Sex -->
+            <div class="form-group">
+                <label>Sex</label>
+                <div class="radio-group">
+                    <label class="radio-item"><input type="radio" name="sex" value="Male"> Male</label>
+                    <label class="radio-item"><input type="radio" name="sex" value="Female"> Female</label>
+                </div>
+                <span class="error-message" id="sexError"></span>
+            </div>
+
+            <!-- Eye Color -->
+            <div class="form-group">
+                <label for="eyeColor">Eye color</label>
+                <select id="eyeColor">
+                    <option value="" disabled selected>Select eye color</option>
+                    <option value="green">Green</option>
+                    <option value="blue">Blue</option>
+                    <option value="brown">Brown</option>
+                    <option value="hazel">Hazel</option>
+                    <option value="other">Other</option>
+                </select>
+                <span class="error-message" id="eyeColorError"></span>
+            </div>
+
+            <!-- Check all that apply -->
+            <div class="form-group">
+                <label>Check all that apply</label>
+                <div class="checkbox-group">
+                    <label class="checkbox-item"><input type="checkbox" name="attributes" value="Over 6 feet tall"> Over 6 feet tall</label>
+                    <label class="checkbox-item"><input type="checkbox" name="attributes" value="Over 200 pounds"> Over 200 pounds</label>
+                </div>
+            </div>
+
+            <!-- Athletic Ability -->
+            <div class="form-group">
+                <label for="ability">Describe your athletic ability:</label>
+                <textarea id="ability" placeholder="e.g., I jog twice a week and play tennis..."></textarea>
+                <span class="error-message" id="abilityError"></span>
+            </div>
+
+            <button type="submit" class="submit-btn">Enter my information</button>
+            <div id="successBox" class="success-box">Registration Successful! Welcome to the gym.</div>
+        </form>
+    </div>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            const form = document.getElementById('gymForm');
+            const nameInput = document.getElementById('name');
+            const sexInputs = document.getElementsByName('sex');
+            const eyeColorInput = document.getElementById('eyeColor');
+            const abilityInput = document.getElementById('ability');
+            
+            const nameError = document.getElementById('nameError');
+            const sexError = document.getElementById('sexError');
+            const eyeColorError = document.getElementById('eyeColorError');
+            const abilityError = document.getElementById('abilityError');
+            const successBox = document.getElementById('successBox');
+
+            // Validation Functions
+            function validateName() {
+                const val = nameInput.value.trim();
+                if (val === '') {
+                    nameError.textContent = 'Name is required.';
+                    nameInput.style.borderColor = 'var(--error-color)';
+                    return false;
+                } else if (!/^[a-zA-Z\s]+$/.test(val)) {
+                    nameError.textContent = 'Name can only contain letters and spaces.';
+                    nameInput.style.borderColor = 'var(--error-color)';
+                    return false;
+                }
+                nameError.textContent = '';
+                nameInput.style.borderColor = 'var(--success-color)';
+                return true;
+            }
+
+            function validateSex() {
+                let isChecked = false;
+                for (let radio of sexInputs) {
+                    if (radio.checked) {
+                        isChecked = true;
+                        break;
+                    }
+                }
+                if (!isChecked) {
+                    sexError.textContent = 'Please select your sex.';
+                    return false;
+                }
+                sexError.textContent = '';
+                return true;
+            }
+
+            function validateEyeColor() {
+                if (eyeColorInput.value === '') {
+                    eyeColorError.textContent = 'Please select an eye color.';
+                    eyeColorInput.style.borderColor = 'var(--error-color)';
+                    return false;
+                }
+                eyeColorError.textContent = '';
+                eyeColorInput.style.borderColor = 'var(--success-color)';
+                return true;
+            }
+
+            function validateAbility() {
+                if (abilityInput.value.trim() === '') {
+                    abilityError.textContent = 'Please describe your athletic ability.';
+                    abilityInput.style.borderColor = 'var(--error-color)';
+                    return false;
+                } else if (abilityInput.value.trim().length < 10) {
+                    abilityError.textContent = 'Please provide at least 10 characters.';
+                    abilityInput.style.borderColor = 'var(--error-color)';
+                    return false;
+                }
+                abilityError.textContent = '';
+                abilityInput.style.borderColor = 'var(--success-color)';
+                return true;
+            }
+
+            // Event Listeners for real-time validation
+            nameInput.addEventListener('input', validateName);
+            
+            sexInputs.forEach(radio => {
+                radio.addEventListener('change', validateSex);
+            });
+
+            eyeColorInput.addEventListener('change', validateEyeColor);
+            abilityInput.addEventListener('input', validateAbility);
+
+            // Form Submit Event
+            form.addEventListener('submit', (e) => {
+                e.preventDefault();
+
+                const isNameValid = validateName();
+                const isSexValid = validateSex();
+                const isEyeColorValid = validateEyeColor();
+                const isAbilityValid = validateAbility();
+
+                if (isNameValid && isSexValid && isEyeColorValid && isAbilityValid) {
+                    successBox.style.display = 'block';
+                    setTimeout(() => {
+                        successBox.style.display = 'none';
+                        form.reset();
+                        nameInput.style.borderColor = 'var(--border-color)';
+                        eyeColorInput.style.borderColor = 'var(--border-color)';
+                        abilityInput.style.borderColor = 'var(--border-color)';
+                    }, 4000);
+                } else {
+                    successBox.style.display = 'none';
+                }
+            });
+        });
+    </script>
+
+</body>
+</html>

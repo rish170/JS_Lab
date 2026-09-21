@@ -1,0 +1,174 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Seminar Schedule Planner</title>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700&display=swap');
+
+        :root {
+            --bg-color: #f3f4f6;
+            --card-bg: #ffffff;
+            --text-main: #1f2937;
+            --border-color: #374151;
+            --th-bg: #f9fafb;
+            --yellow-cell: #fef08a; /* light yellow */
+            --purple-cell: #c4b5fd; /* light purple */
+            --green-cell: #bbf7d0;  /* light green */
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Outfit', sans-serif;
+        }
+
+        body {
+            background-color: var(--bg-color);
+            color: var(--text-main);
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            padding: 3rem 1rem;
+        }
+
+        .container {
+            background: var(--card-bg);
+            padding: 2.5rem;
+            border-radius: 16px;
+            box-shadow: 0 10px 25px rgba(0,0,0,0.1);
+            max-width: 900px;
+            width: 100%;
+        }
+
+        h2 {
+            text-align: center;
+            color: var(--text-main);
+            margin-bottom: 0.5rem;
+            font-size: 2rem;
+            font-weight: 700;
+        }
+
+        p.subtitle {
+            text-align: center;
+            color: #6b7280;
+            margin-bottom: 2rem;
+            font-size: 1rem;
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            border: 2px solid var(--border-color);
+            background-color: #fff;
+        }
+
+        th, td {
+            border: 1px solid var(--border-color);
+            padding: 1rem;
+            text-align: center;
+            vertical-align: middle;
+            font-size: 1.05rem;
+            cursor: pointer;
+            transition: opacity 0.2s, background-color 0.2s;
+        }
+
+        th {
+            background-color: var(--th-bg);
+            font-weight: 600;
+        }
+
+        td:hover, th:hover {
+            opacity: 0.8;
+            background-color: #f3f4f6;
+        }
+
+        .bg-yellow { background-color: var(--yellow-cell); }
+        .bg-purple { background-color: var(--purple-cell); }
+        .bg-green { background-color: var(--green-cell); }
+
+    </style>
+</head>
+<body>
+
+    <div class="container">
+        <h2>Schedule Planner</h2>
+        <p class="subtitle">Click on any cell in the table to see an alert box!</p>
+
+        <table id="scheduleTable">
+            <thead>
+                <tr>
+                    <th></th>
+                    <th colspan="3">Seminar</th>
+                </tr>
+                <tr>
+                    <th rowspan="2">Day</th>
+                    <th colspan="2">Schedule</th>
+                    <th rowspan="2">Topic</th>
+                </tr>
+                <tr>
+                    <th>Begin</th>
+                    <th>End</th>
+                </tr>
+            </thead>
+            <tbody>
+                <!-- Monday -->
+                <tr>
+                    <td rowspan="2">Monday</td>
+                    <td rowspan="2" class="bg-yellow">8:00 a.m.</td>
+                    <td rowspan="2" class="bg-purple">5:00 p.m.</td>
+                    <td>Introduction to XML</td>
+                </tr>
+                <tr>
+                    <td>Validity: DTD and Relax NG</td>
+                </tr>
+                <!-- Tuesday -->
+                <tr>
+                    <td rowspan="3">Tuesday</td>
+                    <td class="bg-yellow">8:00 a.m.</td>
+                    <td class="bg-yellow">11:00 a.m.</td>
+                    <td rowspan="2">XPath</td>
+                </tr>
+                <tr>
+                    <td class="bg-yellow">11:00 a.m.</td>
+                    <td class="bg-green">2:00 p.m.</td>
+                </tr>
+                <tr>
+                    <td class="bg-green">2:00 p.m.</td>
+                    <td class="bg-purple">5:00 p.m.</td>
+                    <td>XSL Transformations</td>
+                </tr>
+                <!-- Wednesday -->
+                <tr>
+                    <td>Wednesday</td>
+                    <td class="bg-yellow">8:00 a.m.</td>
+                    <td class="bg-green">12:00 p.m.</td>
+                    <td>XSL Formatting Objects</td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            const table = document.getElementById('scheduleTable');
+            
+            // Add click event listener to the whole table using Event Delegation
+            table.addEventListener('click', (e) => {
+                // Check if a cell (TD or TH) was clicked
+                if (e.target.tagName === 'TD' || e.target.tagName === 'TH') {
+                    const cellText = e.target.innerText.trim();
+                    if (cellText) {
+                        alert(`You clicked on: ${cellText}`);
+                    } else {
+                        alert(`You clicked on an empty cell.`);
+                    }
+                }
+            });
+        });
+    </script>
+</body>
+</html>

@@ -1,0 +1,38 @@
+[
+  {
+    "empId": "EMP-101",
+    "name": "Sarah Connor",
+    "department": "Engineering",
+    "salary": 85000
+  },
+  {
+    "empId": "EMP-102",
+    "name": "Alex Murphy",
+    "department": "Cybersecurity",
+    "salary": 78000
+  },
+  {
+    "empId": "EMP-103",
+    "name": "Bruce Wayne",
+    "department": "Management",
+    "salary": 145000
+  },
+  {
+    "empId": "EMP-104",
+    "name": "Diana Prince",
+    "department": "Human Resources",
+    "salary": 72000
+  },
+  {
+    "empId": "EMP-105",
+    "name": "Peter Parker",
+    "department": "Marketing",
+    "salary": 62000
+  },
+  {
+    "empId": "EMP-106",
+    "name": "Tony Stark",
+    "department": "Research & Development",
+    "salary": 160000
+  }
+]

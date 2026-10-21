@@ -1,0 +1,128 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Restaurant Order Management - Practical 10</title>
+    <!-- Google Fonts -->
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700&family=Poppins:wght@400;500;600&display=swap">
+    <!-- Custom Stylesheet -->
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+    <div class="dashboard-container">
+        <!-- Header Banner -->
+        <header class="header-card">
+            <div class="brand-section">
+                <div class="brand-icon">🍽️</div>
+                <div class="brand-info">
+                    <h1>Bistro Delight</h1>
+                    <p>Live Kitchen &amp; Restaurant Order Management System</p>
+                </div>
+            </div>
+            <div class="practical-badge">
+                Practical 10 &bull; Case Study 1
+            </div>
+        </header>
+
+        <!-- KPI Summary Cards -->
+        <section class="stats-grid">
+            <div class="stat-card">
+                <div class="stat-icon icon-orders">📦</div>
+                <div class="stat-content">
+                    <h3>Total Orders</h3>
+                    <div class="stat-value" id="totalOrdersDisplay">0</div>
+                    <div class="stat-subtitle">All active restaurant orders</div>
+                </div>
+            </div>
+
+            <div class="stat-card">
+                <div class="stat-icon icon-sales">💰</div>
+                <div class="stat-content">
+                    <h3>Total Sales Amount</h3>
+                    <div class="stat-value" id="totalSalesDisplay">₹0.00</div>
+                    <div class="stat-subtitle">Cumulative revenue calculated</div>
+                </div>
+            </div>
+
+            <div class="stat-card">
+                <div class="stat-icon icon-method">⚡</div>
+                <div class="stat-content">
+                    <h3>Data Fetch Method</h3>
+                    <div class="stat-value" id="activeMethodBadge" style="font-size: 1.25rem;">Fetch API</div>
+                    <div class="stat-subtitle" id="methodDescription">Native JavaScript Promise</div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Controls Card -->
+        <section class="controls-card">
+            <div class="method-selector">
+                <span class="method-label">Technique:</span>
+                <div class="toggle-group" id="methodToggleGroup">
+                    <button type="button" class="toggle-btn active" id="btnUseFetch" data-method="fetch">
+                        fetch()
+                    </button>
+                    <button type="button" class="toggle-btn" id="btnUseJQuery" data-method="jquery">
+                        jQuery $.getJSON()
+                    </button>
+                </div>
+            </div>
+
+            <div class="action-buttons">
+                <button type="button" class="btn-primary" id="viewOrdersBtn">
+                    <span id="btnIcon">📋</span>
+                    <span id="btnText">View Orders</span>
+                </button>
+                <button type="button" class="btn-secondary" id="clearOrdersBtn">
+                    Clear Table
+                </button>
+            </div>
+        </section>
+
+        <!-- Status Message Banner -->
+        <div id="statusBanner" class="status-banner hidden"></div>
+
+        <!-- Orders Table Card -->
+        <main class="table-card">
+            <div class="table-header">
+                <h2>Orders Directory</h2>
+                <span class="table-count-badge" id="orderCountBadge">0 Records</span>
+            </div>
+
+            <div class="table-responsive">
+                <table id="ordersTable">
+                    <thead>
+                        <tr>
+                            <th>Order ID</th>
+                            <th>Customer Name</th>
+                            <th>Food</th>
+                            <th>Quantity</th>
+                            <th>Total Amount</th>
+                            <th>Order Status</th>
+                        </tr>
+                    </thead>
+                    <tbody id="ordersTableBody">
+                        <!-- Default empty state -->
+                        <tr id="emptyRow">
+                            <td colspan="6">
+                                <div class="empty-state">
+                                    <div class="empty-icon">🍳</div>
+                                    <h3>No Orders Loaded Yet</h3>
+                                    <p>Click the <strong>"View Orders"</strong> button above to dynamically load orders from <code>orders.json</code>.</p>
+                                </div>
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </main>
+    </div>
+
+    <!-- jQuery CDN for $.getJSON() requirement -->
+    <script src="https://code.jquery.com/jquery-3.7.1.min.js"></script>
+    <!-- Custom Application Script -->
+    <script src="script.js"></script>
+</body>
+</html>

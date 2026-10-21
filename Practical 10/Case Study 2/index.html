@@ -1,0 +1,181 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Employee Management System - Practical 10</title>
+    <!-- Google Fonts -->
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700&family=Poppins:wght@400;500;600&display=swap">
+    <!-- Custom Stylesheet -->
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+    <div class="dashboard-container">
+        <!-- Header Banner -->
+        <header class="header-card">
+            <div class="brand-section">
+                <div class="brand-icon">💼</div>
+                <div class="brand-info">
+                    <h1>Employee Directory</h1>
+                    <p>Dynamic Staff Database &amp; Payroll Management</p>
+                </div>
+            </div>
+            <div class="practical-badge">
+                Practical 10 &bull; Case Study 2
+            </div>
+        </header>
+
+        <!-- KPI Summary Cards -->
+        <section class="stats-grid">
+            <div class="stat-card">
+                <div class="stat-icon icon-emp">👥</div>
+                <div class="stat-content">
+                    <h3>Total Employees</h3>
+                    <div class="stat-value" id="totalEmpDisplay">0</div>
+                    <div class="stat-subtitle">Registered staff records</div>
+                </div>
+            </div>
+
+            <div class="stat-card">
+                <div class="stat-icon icon-payroll">💵</div>
+                <div class="stat-content">
+                    <h3>Total Payroll</h3>
+                    <div class="stat-value" id="totalPayrollDisplay">₹0.00</div>
+                    <div class="stat-subtitle">Monthly salary expenditure</div>
+                </div>
+            </div>
+
+            <div class="stat-card">
+                <div class="stat-icon icon-avg">📊</div>
+                <div class="stat-content">
+                    <h3>Average Salary</h3>
+                    <div class="stat-value" id="avgSalaryDisplay">₹0.00</div>
+                    <div class="stat-subtitle">Per employee compensation</div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Add Employee Form Card -->
+        <section class="form-card">
+            <div class="form-header">
+                <h2><span>➕</span> Add New Employee</h2>
+                <span class="practical-badge" style="background:#f1f5f9; color:#475569; border:none;">Form Input</span>
+            </div>
+            <form id="addEmployeeForm" novalidate>
+                <div class="form-grid">
+                    <div class="form-group">
+                        <label for="empIdInput">Employee ID</label>
+                        <input type="text" id="empIdInput" placeholder="e.g. EMP-107" required>
+                        <span class="form-error" id="empIdError"></span>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="empNameInput">Full Name</label>
+                        <input type="text" id="empNameInput" placeholder="e.g. John Doe" required>
+                        <span class="form-error" id="empNameError"></span>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="empDeptInput">Department</label>
+                        <select id="empDeptInput" required>
+                            <option value="">Select Department</option>
+                            <option value="Engineering">Engineering</option>
+                            <option value="Cybersecurity">Cybersecurity</option>
+                            <option value="Management">Management</option>
+                            <option value="Human Resources">Human Resources</option>
+                            <option value="Marketing">Marketing</option>
+                            <option value="Research & Development">Research &amp; Development</option>
+                            <option value="Finance">Finance</option>
+                            <option value="Operations">Operations</option>
+                        </select>
+                        <span class="form-error" id="empDeptError"></span>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="empSalaryInput">Salary (₹)</label>
+                        <input type="number" id="empSalaryInput" placeholder="e.g. 80000" min="1000" step="500" required>
+                        <span class="form-error" id="empSalaryError"></span>
+                    </div>
+                </div>
+
+                <div class="form-actions">
+                    <button type="submit" class="btn-primary" id="btnAddEmployee">
+                        <span>➕</span> Add to Records
+                    </button>
+                </div>
+            </form>
+        </section>
+
+        <!-- Control Panel -->
+        <section class="controls-card">
+            <div class="method-selector">
+                <span class="method-label">Technique:</span>
+                <div class="toggle-group" id="methodToggleGroup">
+                    <button type="button" class="toggle-btn active" id="btnUseFetch" data-method="fetch">
+                        fetch()
+                    </button>
+                    <button type="button" class="toggle-btn" id="btnUseJQuery" data-method="jquery">
+                        jQuery $.getJSON()
+                    </button>
+                </div>
+            </div>
+
+            <div class="action-buttons">
+                <button type="button" class="btn-primary" id="loadEmployeesBtn">
+                    <span id="loadBtnIcon">📥</span>
+                    <span id="loadBtnText">Load Employees</span>
+                </button>
+                <button type="button" class="btn-success" id="exportJsonBtn" title="Download updated employees.json file">
+                    <span>💾</span> Save/Export JSON
+                </button>
+                <button type="button" class="btn-secondary" id="clearTableBtn">
+                    Clear Table
+                </button>
+            </div>
+        </section>
+
+        <!-- Status Message Banner -->
+        <div id="statusBanner" class="status-banner hidden"></div>
+
+        <!-- Employees Table Card -->
+        <main class="table-card">
+            <div class="table-header">
+                <h2>Employees Directory</h2>
+                <span class="table-count-badge" id="empCountBadge">0 Records</span>
+            </div>
+
+            <div class="table-responsive">
+                <table id="employeesTable">
+                    <thead>
+                        <tr>
+                            <th>Employee ID</th>
+                            <th>Name</th>
+                            <th>Department</th>
+                            <th>Salary</th>
+                            <th>Actions</th>
+                        </tr>
+                    </thead>
+                    <tbody id="employeesTableBody">
+                        <!-- Default empty state -->
+                        <tr id="emptyRow">
+                            <td colspan="5">
+                                <div class="empty-state">
+                                    <div class="empty-icon">👥</div>
+                                    <h3>No Employees Loaded</h3>
+                                    <p>Click the <strong>"Load Employees"</strong> button above to load records from <code>employees.json</code>, or add a new employee using the form.</p>
+                                </div>
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </main>
+    </div>
+
+    <!-- jQuery CDN for $.getJSON() requirement -->
+    <script src="https://code.jquery.com/jquery-3.7.1.min.js"></script>
+    <!-- Custom Application Script -->
+    <script src="script.js"></script>
+</body>
+</html>

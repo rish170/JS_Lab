@@ -1,0 +1,66 @@
+[
+  {
+    "orderId": "ORD-101",
+    "customerName": "Aarav Sharma",
+    "food": "Paneer Butter Masala & Naan",
+    "quantity": 2,
+    "totalAmount": 480.00,
+    "orderStatus": "Delivered"
+  },
+  {
+    "orderId": "ORD-102",
+    "customerName": "Sophia Martinez",
+    "food": "Truffle Mushroom Risotto",
+    "quantity": 1,
+    "totalAmount": 650.00,
+    "orderStatus": "Preparing"
+  },
+  {
+    "orderId": "ORD-103",
+    "customerName": "Rohan Verma",
+    "food": "Crispy Chicken Burger & Fries",
+    "quantity": 3,
+    "totalAmount": 720.00,
+    "orderStatus": "Delivered"
+  },
+  {
+    "orderId": "ORD-104",
+    "customerName": "Ananya Patel",
+    "food": "Margherita Wood-Fired Pizza",
+    "quantity": 2,
+    "totalAmount": 580.00,
+    "orderStatus": "In Transit"
+  },
+  {
+    "orderId": "ORD-105",
+    "customerName": "Liam Johnson",
+    "food": "Pasta Alfredo with Garlic Bread",
+    "quantity": 1,
+    "totalAmount": 390.00,
+    "orderStatus": "Delivered"
+  },
+  {
+    "orderId": "ORD-106",
+    "customerName": "Isha Kapoor",
+    "food": "Classic Caesar Salad & Smoothie",
+    "quantity": 2,
+    "totalAmount": 420.00,
+    "orderStatus": "Pending"
+  },
+  {
+    "orderId": "ORD-107",
+    "customerName": "David Miller",
+    "food": "Grilled Salmon with Asparagus",
+    "quantity": 1,
+    "totalAmount": 890.00,
+    "orderStatus": "Delivered"
+  },
+  {
+    "orderId": "ORD-108",
+    "customerName": "Pooja Hegde",
+    "food": "Veg Hakka Noodles & Manchurian",
+    "quantity": 2,
+    "totalAmount": 460.00,
+    "orderStatus": "Preparing"
+  }
+]

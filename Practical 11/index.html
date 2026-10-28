@@ -1,0 +1,308 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Dynamic Class Scheduler & Countdown Timer - Practical 11</title>
+    <!-- Google Fonts -->
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700;800&family=Poppins:wght@400;500;600;700&family=JetBrains+Mono:wght@500;700;800&display=swap">
+    <!-- Custom Stylesheet -->
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+    <div class="dashboard-container">
+        <!-- Top Header & Live Digital Clock (setInterval) -->
+        <header class="header-card">
+            <div class="brand-section">
+                <div class="brand-icon">⏱️</div>
+                <div class="brand-info">
+                    <h1>Dynamic Class Scheduler</h1>
+                    <p>Real-Time Lecture Countdown &amp; Timetable Automation</p>
+                    <div class="practical-badge">
+                        Practical 11 &bull; Timers (setTimeout, setInterval) &amp; ES6 Modules
+                    </div>
+                </div>
+            </div>
+
+            <!-- Digital Clock Widget -->
+            <div class="clock-widget">
+                <div class="clock-label">
+                    <span class="pulse-dot"></span> Live System Time
+                </div>
+                <div class="clock-digits" id="clockDigits">00:00:00 --</div>
+                <div class="clock-date" id="clockDate">Loading date...</div>
+            </div>
+        </header>
+
+        <!-- Notification Banner (Auto-dismissed via setTimeout) -->
+        <div id="notificationBanner" class="notification-banner hidden">
+            <div class="banner-content">
+                <span class="banner-icon">🔔</span>
+                <div class="banner-text">
+                    <h4 id="bannerTitle">Reminder Alert</h4>
+                    <p id="bannerMessage">Scheduled notification message will appear here.</p>
+                </div>
+            </div>
+            <button type="button" class="banner-close" id="bannerCloseBtn">&times;</button>
+        </div>
+
+        <!-- Primary Top Grid: Real-Time Dynamic Countdown & Ongoing Class -->
+        <section class="hero-grid">
+            <!-- Dynamic Countdown Hero Card (setInterval) -->
+            <div class="countdown-card">
+                <div class="countdown-header">
+                    <div class="countdown-title">
+                        <span class="tag-badge">Live Countdown</span>
+                        <h2>Upcoming Target</h2>
+                    </div>
+                    <div class="timer-badge-indicator">
+                        <span class="pulse-dot" style="background-color: #6366f1;"></span> Real-Time Ticking
+                    </div>
+                </div>
+
+                <!-- 4-Block Countdown Grid: Days, Hours, Minutes, Seconds -->
+                <div class="countdown-display">
+                    <div class="countdown-box">
+                        <div class="box-number" id="daysDigit">00</div>
+                        <div class="box-label">Days</div>
+                    </div>
+                    <div class="countdown-box">
+                        <div class="box-number" id="hoursDigit">00</div>
+                        <div class="box-label">Hours</div>
+                    </div>
+                    <div class="countdown-box">
+                        <div class="box-number" id="minutesDigit">00</div>
+                        <div class="box-label">Minutes</div>
+                    </div>
+                    <div class="countdown-box">
+                        <div class="box-number" id="secondsDigit">00</div>
+                        <div class="box-label">Seconds</div>
+                    </div>
+                </div>
+
+                <!-- Target Meta Details -->
+                <div class="target-info-footer">
+                    <div class="target-name">
+                        <span>🎯 Target:</span>
+                        <strong id="countdownTargetName">Detecting next scheduled class...</strong>
+                    </div>
+                    <div class="target-time" id="countdownTargetTime">--:--</div>
+                </div>
+            </div>
+
+            <!-- Current Ongoing Class & Status Card -->
+            <div class="ongoing-card">
+                <div class="countdown-header">
+                    <div class="card-title">
+                        <span>🏫</span> Current Status
+                    </div>
+                    <span class="status-pill pill-idle" id="ongoingStatusBadge">Evaluating...</span>
+                </div>
+
+                <div class="ongoing-body">
+                    <h3 class="ongoing-subject" id="ongoingSubject">Checking Timetable...</h3>
+                    <div class="ongoing-meta" id="ongoingDetails">
+                        <div>Scanning current schedule records...</div>
+                    </div>
+
+                    <!-- Progress Bar for Ongoing Class -->
+                    <div class="progress-section">
+                        <div class="progress-labels">
+                            <span id="classTimeRange">--:-- - --:--</span>
+                            <span id="classProgressText">0% Elapsed</span>
+                        </div>
+                        <div class="progress-track">
+                            <div class="progress-fill" id="classProgressFill"></div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Secondary Section: JavaScript Timer Controls (setTimeout & setInterval) -->
+        <section class="tools-grid">
+            <!-- Custom Countdown Presets & Controls -->
+            <div class="tool-card">
+                <h3><span>⏲️</span> Countdown Presets &amp; Controls</h3>
+                <p class="tool-subtitle">Powered by <code>setInterval()</code> &bull; Sets custom interval countdown</p>
+
+                <div class="preset-buttons">
+                    <button type="button" class="preset-btn" data-minutes="1">+1 Min</button>
+                    <button type="button" class="preset-btn" data-minutes="5">+5 Min</button>
+                    <button type="button" class="preset-btn" data-minutes="15">+15 Min</button>
+                    <button type="button" class="preset-btn" data-minutes="30">+30 Min</button>
+                    <button type="button" class="preset-btn" data-minutes="60">+1 Hour</button>
+                </div>
+
+                <div class="timer-action-group">
+                    <button type="button" class="btn btn-warning" id="pauseCountdownBtn">
+                        ⏸️ Pause
+                    </button>
+                    <button type="button" class="btn btn-secondary" id="resetCountdownBtn">
+                        🔄 Reset to Next Class
+                    </button>
+                </div>
+            </div>
+
+            <!-- Scheduled Reminders & Timed Triggers -->
+            <div class="tool-card">
+                <h3><span>⏰</span> Schedule Delayed Reminder</h3>
+                <p class="tool-subtitle">Powered by <code>setTimeout()</code> &bull; Fires after specified delay with chime</p>
+
+                <div class="reminder-form">
+                    <div class="input-row">
+                        <input type="text" id="reminderText" placeholder="Reminder note (e.g. Lab Viva Starts)" value="Lab Viva &amp; Code Review Starts!">
+                        <select id="reminderDelay">
+                            <option value="5">In 5 Seconds (Quick Demo)</option>
+                            <option value="10">In 10 Seconds</option>
+                            <option value="30">In 30 Seconds</option>
+                            <option value="60">In 1 Minute</option>
+                        </select>
+                    </div>
+
+                    <div class="timer-action-group">
+                        <button type="button" class="btn btn-primary" id="scheduleReminderBtn">
+                            <span>⏱️</span> Set Reminder (setTimeout)
+                        </button>
+                        <button type="button" class="btn btn-secondary hidden" id="cancelReminderBtn">
+                            Cancel
+                        </button>
+                    </div>
+
+                    <div id="reminderStatusText" style="font-size: 0.85rem; font-weight: 600; color: #64748b;">
+                        Ready to arm reminder alert.
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Timetable & Class Scheduler Section -->
+        <section class="schedule-section">
+            <div class="schedule-header">
+                <h2><span>📅</span> Weekly Timetable &amp; Schedule</h2>
+
+                <!-- Day Filter Buttons -->
+                <div class="day-filters">
+                    <button type="button" class="day-pill active" data-day="all">All Days</button>
+                    <button type="button" class="day-pill" data-day="Monday">Monday</button>
+                    <button type="button" class="day-pill" data-day="Tuesday">Tuesday</button>
+                    <button type="button" class="day-pill" data-day="Wednesday">Wednesday</button>
+                    <button type="button" class="day-pill" data-day="Thursday">Thursday</button>
+                    <button type="button" class="day-pill" data-day="Friday">Friday</button>
+                </div>
+
+                <div style="display: flex; gap: 0.5rem;">
+                    <button type="button" class="btn btn-secondary" id="syncScheduleBtn">
+                        <span>🔄</span> Sync Schedule
+                    </button>
+                    <button type="button" class="btn btn-primary" id="openAddModalBtn">
+                        <span>➕</span> Add Class
+                    </button>
+                </div>
+            </div>
+
+            <!-- Dynamic Classes Grid -->
+            <div class="classes-grid" id="classesGrid">
+                <!-- Class cards generated dynamically by script.js -->
+            </div>
+        </section>
+    </div>
+
+    <!-- Modal Form: Add New Class -->
+    <div class="modal-overlay hidden" id="addClassModal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h3><span>➕</span> Add New Class</h3>
+                <button type="button" class="modal-close" id="closeAddModalBtn">&times;</button>
+            </div>
+            <form id="addClassForm" class="modal-form">
+                <div class="form-group">
+                    <label for="subjectInput">Subject Name *</label>
+                    <input type="text" id="subjectInput" placeholder="e.g. Advanced JavaScript &amp; Node.js" required>
+                </div>
+
+                <div class="form-row">
+                    <div class="form-group">
+                        <label for="codeInput">Course Code</label>
+                        <input type="text" id="codeInput" placeholder="e.g. CS-509">
+                    </div>
+                    <div class="form-group">
+                        <label for="dayInput">Day of Week *</label>
+                        <select id="dayInput" required>
+                            <option value="Monday">Monday</option>
+                            <option value="Tuesday">Tuesday</option>
+                            <option value="Wednesday">Wednesday</option>
+                            <option value="Thursday">Thursday</option>
+                            <option value="Friday">Friday</option>
+                            <option value="Saturday">Saturday</option>
+                        </select>
+                    </div>
+                </div>
+
+                <div class="form-row">
+                    <div class="form-group">
+                        <label for="startTimeInput">Start Time (24h) *</label>
+                        <input type="time" id="startTimeInput" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="endTimeInput">End Time (24h) *</label>
+                        <input type="time" id="endTimeInput" required>
+                    </div>
+                </div>
+
+                <div class="form-row">
+                    <div class="form-group">
+                        <label for="roomInput">Room / Lab</label>
+                        <input type="text" id="roomInput" placeholder="e.g. Lab 3A">
+                    </div>
+                    <div class="form-group">
+                        <label for="instructorInput">Instructor</label>
+                        <input type="text" id="instructorInput" placeholder="e.g. Dr. Roy">
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <label for="colorInput">Accent Color Theme</label>
+                    <select id="colorInput">
+                        <option value="blue">Blue</option>
+                        <option value="indigo">Indigo</option>
+                        <option value="purple">Purple</option>
+                        <option value="emerald">Emerald</option>
+                        <option value="amber">Amber</option>
+                        <option value="rose">Rose</option>
+                        <option value="cyan">Cyan</option>
+                        <option value="teal">Teal</option>
+                    </select>
+                </div>
+
+                <div class="modal-actions">
+                    <button type="button" class="btn btn-secondary" id="cancelAddBtn">Cancel</button>
+                    <button type="submit" class="btn btn-primary">Save to Schedule</button>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <!-- ES6 Module Entry Script -->
+    <script type="module" src="script.js"></script>
+
+    <!-- Standalone Fallback Runner in case opened directly via file:// protocol -->
+    <script>
+        // Check if browser blocked ES6 module import due to local file:// protocol
+        window.addEventListener('load', () => {
+            setTimeout(() => {
+                const digits = document.getElementById('clockDigits');
+                if (digits && digits.textContent.includes('00:00:00 --')) {
+                    console.log("ES6 module not auto-started (likely file:// protocol CORS). Activating local fallback.");
+                    // In case the file was opened with file:/// protocol which blocks cross-file ES6 imports
+                    const notice = document.createElement('div');
+                    notice.style.cssText = "position: fixed; bottom: 15px; right: 15px; background: #1e1b4b; color: #a5b4fc; padding: 12px 18px; border-radius: 12px; font-size: 0.85rem; box-shadow: 0 10px 25px rgba(0,0,0,0.3); border: 1px solid #4f46e5; z-index: 9999;";
+                    notice.innerHTML = "💡 <strong>Tip for ES6 Modules:</strong> To test <code>import/export</code> in modern browsers, run via a web server (e.g. <em>VS Code Live Server</em> or <code>npx serve</code>).";
+                    document.body.appendChild(notice);
+                }
+            }, 600);
+        });
+    </script>
+</body>
+</html>

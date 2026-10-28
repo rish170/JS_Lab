@@ -1,0 +1,63 @@
+[
+  {
+    "id": "task-101",
+    "title": "Review database migration scripts",
+    "description": "Verify indexes and foreign key constraints before applying migration v2.4 to production replica.",
+    "category": "Engineering",
+    "priority": "high",
+    "status": "in-progress",
+    "dueDate": "2026-11-02",
+    "createdAt": "2026-10-28T09:30:00Z"
+  },
+  {
+    "id": "task-102",
+    "title": "Design typography hierarchy for client portal",
+    "description": "Establish editorial heading scales, line heights, and tabular figures for analytics tables.",
+    "category": "Design",
+    "priority": "medium",
+    "status": "todo",
+    "dueDate": "2026-11-04",
+    "createdAt": "2026-10-28T10:15:00Z"
+  },
+  {
+    "id": "task-103",
+    "title": "Optimize Webpack asset chunking",
+    "description": "Separate vendor bundles and configure dynamic imports for route-based code splitting.",
+    "category": "Performance",
+    "priority": "medium",
+    "status": "todo",
+    "dueDate": "2026-11-06",
+    "createdAt": "2026-10-28T11:00:00Z"
+  },
+  {
+    "id": "task-104",
+    "title": "Publish API documentation v1.2",
+    "description": "Document webhook retry policies, idempotency headers, and rate limiting status codes.",
+    "category": "Documentation",
+    "priority": "low",
+    "status": "done",
+    "dueDate": "2026-10-27",
+    "createdAt": "2026-10-27T14:20:00Z"
+  },
+  {
+    "id": "task-105",
+    "title": "Conduct security audit on OAuth2 refresh tokens",
+    "description": "Verify token rotation policies and validate revocation endpoints against OWASP standards.",
+    "category": "Security",
+    "priority": "high",
+    "status": "todo",
+    "dueDate": "2026-11-01",
+    "createdAt": "2026-10-28T16:45:00Z"
+  },
+  {
+    "id": "task-106",
+    "title": "Draft quarterly infrastructure budget report",
+    "description": "Compile cloud compute costs, egress traffic metrics, and forecasted reserved instance savings.",
+    "category": "Operations",
+    "priority": "low",
+    "status": "in-progress",
+    "dueDate": "2026-11-08",
+    "createdAt": "2026-10-28T17:10:00Z"
+  }
+]
+

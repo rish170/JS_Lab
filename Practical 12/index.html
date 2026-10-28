@@ -1,0 +1,284 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Kanso Workspace — Real-Time Task Dispatcher</title>
+    <link rel="stylesheet" href="style.css">
+    <!-- jQuery CDN -->
+    <script src="https://code.jquery.com/jquery-3.7.1.min.js"></script>
+</head>
+<body>
+
+    <!-- App Shell -->
+    <div class="app-layout">
+        
+        <!-- Header -->
+        <header class="app-header">
+            <div class="header-branding">
+                <div class="brand-symbol">K</div>
+                <div>
+                    <h1 class="brand-title">Kanso</h1>
+                    <p class="brand-subtitle">Real-Time Task Dispatcher &amp; Workspace</p>
+                </div>
+            </div>
+
+            <!-- Header Telemetry & Quick Actions -->
+            <div class="header-controls">
+                <div class="live-clock-badge">
+                    <span class="live-indicator-dot"></span>
+                    <span id="liveClock">--:--:--</span>
+                </div>
+
+                <div class="ajax-status-pill" id="ajaxStatusBadge">
+                    <span class="status-indicator" id="ajaxDot"></span>
+                    <span id="ajaxStatusText">Local Ready</span>
+                </div>
+
+                <button type="button" class="btn btn-secondary" id="btnFetchAjax" title="Reload remote seed data via AJAX">
+                    <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21.5 2v6h-6M21.34 15.57a10 10 0 1 1-.57-8.38l5.67-5.67"/></svg>
+                    <span>Fetch Seed (AJAX)</span>
+                </button>
+
+                <button type="button" class="btn btn-primary" id="btnOpenModal">
+                    <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="12" y1="5" x2="12" y2="19"></line><line x1="5" y1="12" x2="19" y2="12"></line></svg>
+                    <span>New Task</span>
+                </button>
+            </div>
+        </header>
+
+        <!-- Metrics & Progress Bar -->
+        <section class="metrics-panel">
+            <div class="metric-card">
+                <span class="metric-label">Total Dispatch</span>
+                <span class="metric-value" id="statTotal">0</span>
+            </div>
+            <div class="metric-card">
+                <span class="metric-label">To Do</span>
+                <span class="metric-value text-stone" id="statTodo">0</span>
+            </div>
+            <div class="metric-card">
+                <span class="metric-label">In Progress</span>
+                <span class="metric-value text-amber" id="statInProgress">0</span>
+            </div>
+            <div class="metric-card">
+                <span class="metric-label">Completed</span>
+                <span class="metric-value text-sage" id="statDone">0</span>
+            </div>
+            <div class="metric-card metric-progress-card">
+                <div class="progress-meta">
+                    <span class="metric-label">Sprint Health</span>
+                    <span class="progress-percentage" id="progressPercentage">0%</span>
+                </div>
+                <div class="progress-track">
+                    <div class="progress-fill" id="progressBar" style="width: 0%;"></div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Filter & Search Toolbar -->
+        <section class="toolbar">
+            <div class="search-box">
+                <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="11" cy="11" r="8"></circle><line x1="21" y1="21" x2="16.65" y2="16.65"></line></svg>
+                <input type="text" id="searchInput" placeholder="Filter tasks by title or keyword..." autocomplete="off">
+                <button type="button" class="search-clear-btn" id="clearSearchBtn" style="display: none;">&times;</button>
+            </div>
+
+            <div class="filter-group">
+                <label for="priorityFilter" class="filter-label">Priority:</label>
+                <select id="priorityFilter" class="filter-select">
+                    <option value="all">All Priorities</option>
+                    <option value="high">High</option>
+                    <option value="medium">Medium</option>
+                    <option value="low">Low</option>
+                </select>
+            </div>
+
+            <div class="filter-group">
+                <label for="categoryFilter" class="filter-label">Category:</label>
+                <select id="categoryFilter" class="filter-select">
+                    <option value="all">All Categories</option>
+                    <option value="Engineering">Engineering</option>
+                    <option value="Design">Design</option>
+                    <option value="Performance">Performance</option>
+                    <option value="Documentation">Documentation</option>
+                    <option value="Security">Security</option>
+                    <option value="Operations">Operations</option>
+                </select>
+            </div>
+
+            <div class="view-switch-group">
+                <button type="button" class="btn-icon active" id="viewBoardBtn" title="Board View">
+                    <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="3" width="7" height="18" rx="1"/><rect x="14" y="3" width="7" height="18" rx="1"/></svg>
+                </button>
+                <button type="button" class="btn-icon" id="viewListBtn" title="List View">
+                    <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="8" y1="6" x2="21" y2="6"/><line x1="8" y1="12" x2="21" y2="12"/><line x1="8" y1="18" x2="21" y2="18"/><line x1="3" y1="6" x2="3.01" y2="6"/><line x1="3" y1="12" x2="3.01" y2="12"/><line x1="3" y1="18" x2="3.01" y2="18"/></svg>
+                </button>
+            </div>
+        </section>
+
+        <!-- Main Workspace Area -->
+        <main class="workspace-area">
+            <!-- Kanban Columns Container -->
+            <div class="board-grid" id="boardContainer">
+                
+                <!-- Column: To Do -->
+                <div class="board-column" data-status="todo" id="columnTodo">
+                    <div class="column-header">
+                        <div class="column-title-wrap">
+                            <span class="column-status-dot dot-stone"></span>
+                            <h2 class="column-title">To Do</h2>
+                            <span class="column-count-badge" id="countTodo">0</span>
+                        </div>
+                        <button type="button" class="btn-quick-add" data-quick-status="todo" title="Add item to To Do">+</button>
+                    </div>
+                    <div class="task-dropzone" id="tasksTodo">
+                        <!-- Dynamically populated via jQuery -->
+                    </div>
+                </div>
+
+                <!-- Column: In Progress -->
+                <div class="board-column" data-status="in-progress" id="columnInProgress">
+                    <div class="column-header">
+                        <div class="column-title-wrap">
+                            <span class="column-status-dot dot-amber"></span>
+                            <h2 class="column-title">In Progress</h2>
+                            <span class="column-count-badge" id="countInProgress">0</span>
+                        </div>
+                        <button type="button" class="btn-quick-add" data-quick-status="in-progress" title="Add item to In Progress">+</button>
+                    </div>
+                    <div class="task-dropzone" id="tasksInProgress">
+                        <!-- Dynamically populated via jQuery -->
+                    </div>
+                </div>
+
+                <!-- Column: Completed -->
+                <div class="board-column" data-status="done" id="columnDone">
+                    <div class="column-header">
+                        <div class="column-title-wrap">
+                            <span class="column-status-dot dot-sage"></span>
+                            <h2 class="column-title">Completed</h2>
+                            <span class="column-count-badge" id="countDone">0</span>
+                        </div>
+                        <button type="button" class="btn-quick-add" data-quick-status="done" title="Add item to Completed">+</button>
+                    </div>
+                    <div class="task-dropzone" id="tasksDone">
+                        <!-- Dynamically populated via jQuery -->
+                    </div>
+                </div>
+
+            </div>
+
+            <!-- Alternative List View Container -->
+            <div class="list-container" id="listContainer" style="display: none;">
+                <div class="list-table-header">
+                    <div class="col-check">Status</div>
+                    <div class="col-title">Task</div>
+                    <div class="col-cat">Category</div>
+                    <div class="col-priority">Priority</div>
+                    <div class="col-due">Due Date</div>
+                    <div class="col-actions">Actions</div>
+                </div>
+                <div class="list-body" id="listBody">
+                    <!-- Populated via jQuery -->
+                </div>
+            </div>
+        </main>
+
+        <!-- Live Activity & Audit Log Section -->
+        <footer class="app-footer">
+            <div class="activity-drawer" id="activityDrawer">
+                <div class="activity-header">
+                    <div class="activity-title-group">
+                        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="22 12 18 12 15 21 9 3 6 12 2 12"/></svg>
+                        <h3 class="activity-heading">Real-Time Event Stream</h3>
+                        <span class="activity-count" id="activityCount">0 events</span>
+                    </div>
+                    <div class="activity-actions">
+                        <button type="button" class="btn-text-action" id="btnClearStorage" title="Clear all localStorage and wipe state">Reset Workspace</button>
+                        <button type="button" class="btn-text-action" id="btnClearActivity">Clear Log</button>
+                        <button type="button" class="btn-toggle-activity" id="btnToggleActivity" title="Minimize or expand event stream">&#9662;</button>
+                    </div>
+                </div>
+                <div class="activity-stream" id="activityStream">
+                    <!-- Real-time activity entries prepended here via jQuery -->
+                </div>
+            </div>
+        </footer>
+
+    </div>
+
+    <!-- Modal: Create / Edit Task -->
+    <div class="modal-backdrop" id="taskModal" style="display: none;">
+        <div class="modal-card">
+            <div class="modal-header">
+                <h3 class="modal-title" id="modalHeading">Create New Task</h3>
+                <button type="button" class="btn-close-modal" id="btnCloseModal">&times;</button>
+            </div>
+            
+            <form id="taskForm" novalidate>
+                <input type="hidden" id="editTaskId" value="">
+
+                <div class="form-row">
+                    <label for="taskTitle" class="form-label">Task Title <span class="required">*</span></label>
+                    <input type="text" id="taskTitle" class="form-input" placeholder="e.g. Conduct database query optimization" required>
+                    <div class="form-error" id="titleError">Please enter a task title.</div>
+                </div>
+
+                <div class="form-row">
+                    <label for="taskDescription" class="form-label">Description / Scope</label>
+                    <textarea id="taskDescription" class="form-textarea" rows="3" placeholder="Provide background, requirements, or acceptance criteria..."></textarea>
+                </div>
+
+                <div class="form-grid">
+                    <div class="form-row">
+                        <label for="taskCategory" class="form-label">Category</label>
+                        <select id="taskCategory" class="form-select">
+                            <option value="Engineering">Engineering</option>
+                            <option value="Design">Design</option>
+                            <option value="Performance">Performance</option>
+                            <option value="Documentation">Documentation</option>
+                            <option value="Security">Security</option>
+                            <option value="Operations">Operations</option>
+                        </select>
+                    </div>
+
+                    <div class="form-row">
+                        <label for="taskPriority" class="form-label">Priority</label>
+                        <select id="taskPriority" class="form-select">
+                            <option value="low">Low Priority</option>
+                            <option value="medium" selected>Medium Priority</option>
+                            <option value="high">High Priority</option>
+                        </select>
+                    </div>
+                </div>
+
+                <div class="form-grid">
+                    <div class="form-row">
+                        <label for="taskStatus" class="form-label">Initial Column</label>
+                        <select id="taskStatus" class="form-select">
+                            <option value="todo">To Do</option>
+                            <option value="in-progress">In Progress</option>
+                            <option value="done">Completed</option>
+                        </select>
+                    </div>
+
+                    <div class="form-row">
+                        <label for="taskDueDate" class="form-label">Target Completion</label>
+                        <input type="date" id="taskDueDate" class="form-input">
+                    </div>
+                </div>
+
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" id="btnCancelModal">Cancel</button>
+                    <button type="submit" class="btn btn-primary" id="btnSaveTask">Save Task</button>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <!-- Application Script -->
+    <script src="script.js"></script>
+</body>
+</html>
+
